@@ -30,6 +30,11 @@ RUN set -e && files=$(find /opt/spark/jobs -path '/opt/spark/jobs/pipelines/*/*'
 
 COPY --chown=spark ./src/main/resources/krausening/ ${SPARK_HOME}/krausening/
 
+# Copy the images and extract them
+COPY --chown=spark ./src/main/resources/images/images.zip ${SPARK_HOME}/work-dir/
+RUN apt-get update -y && apt-get install -y unzip
+RUN unzip ${SPARK_HOME}/work-dir/images.zip -d ${SPARK_HOME}/work-dir/
+
 # Switch to the spark user (which *is* 1001)
 USER spark
 WORKDIR /opt/spark/work-dir/
