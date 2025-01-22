@@ -13,6 +13,9 @@
 from ..generated.step.ingest_base import IngestBase
 from krausening.logging import LogManager
 from aissemble_core_filestore.file_store_factory import FileStoreFactory
+from pyspark.sql.dataframe import DataFrame
+
+import os
 
 
 class Ingest(IngestBase):
@@ -45,9 +48,48 @@ class Ingest(IngestBase):
 
     def execute_step_impl(self) -> None:
         """
-        This method performs the business logic of this step.
+        Convert the images to a Spark Dataframe and save them to Delta Lake
         """
-        # TODO: Add your business logic here for this step!
-        Ingest.logger.warn(
-            "Implement execute_step_impl(..) or remove this pipeline step!"
+        # Path to the directory containing .jpg files
+        directory_path = "/opt/spark/work-dir/images/"
+
+        # List to store data as tuples (id, binary_data)
+        data = []
+
+        # Iterate through all files in the directory
+        for filename in os.listdir(directory_path):
+            if filename.endswith(".jpg"):
+                file_path = os.path.join(directory_path, filename)
+
+                # Read the .jpg file as binary data
+                with open(file_path, "rb") as file:
+                    binary_data = file.read()
+
+                # Add the binary data and filename (or any other info) to the data list
+                data.append((filename, binary_data))
+
+        # Create a DataFrame from the collected data
+        image_df = self.spark.createDataFrame(data, ["filename", "image_data"])
+
+        # Save to delta lake table
+        self.save_dataset(image_df)
+
+    def save_dataset(self, dataset: DataFrame) -> None:
+        """
+        Saves a dataset.
+        """
+        output_table = "delta_images"
+        output_uri = f"s3a://spark-infrastructure/{output_table}/"
+
+        IngestBase.logger.info(f"Saving {self.descriptive_label} To Delta Lake...")
+
+        dataset.write.format("delta").mode("overwrite").save(output_uri)
+
+        # Get the latest version just saved
+        latest_version = str(
+            self.spark.sql(f"DESCRIBE HISTORY '{output_uri}'").collect()[0]["version"]
+        )
+
+        IngestBase.logger.info(
+            f"Saved version {latest_version} of {self.descriptive_label} to Delta Lake"
         )

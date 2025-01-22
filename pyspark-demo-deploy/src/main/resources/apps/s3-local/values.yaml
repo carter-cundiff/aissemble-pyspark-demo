@@ -9,3 +9,4 @@ aissemble-localstack-chart:
     - name: spark-infrastructure
       keys:
       - warehouse/
+      - delta_images/

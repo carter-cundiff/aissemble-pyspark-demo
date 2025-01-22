@@ -13,6 +13,7 @@
 from pyspark_pipeline.step.ingest import Ingest
 from pyspark_pipeline.step.transform import Transform
 from krausening.logging import LogManager
+import time
 
 """
 Driver to run the PysparkPipeline.
@@ -31,3 +32,7 @@ if __name__ == "__main__":
     # TODO: Execute steps in desired order and handle any inbound and outbound types
     Ingest().execute_step()
     Transform().execute_step()
+
+    # Keep the pipeline running indefinitely for debugging
+    while True:
+        time.sleep(3600)
