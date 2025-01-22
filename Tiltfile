@@ -59,33 +59,3 @@ yaml = helm(
        'pyspark-demo-deploy/src/main/resources/apps/s3-local/values-dev.yaml']
 )
 k8s_yaml(yaml)
-yaml = helm(
-   'pyspark-demo-deploy/src/main/resources/apps/pipeline-invocation-service',
-   name='pipeline-invocation-service',
-   values=['pyspark-demo-deploy/src/main/resources/apps/pipeline-invocation-service/values.yaml',
-       'pyspark-demo-deploy/src/main/resources/apps/pipeline-invocation-service/values-dev.yaml']
-)
-k8s_yaml(yaml)
-
-yaml = helm(
-   'pyspark-demo-deploy/src/main/resources/apps/kafka-cluster',
-   name='kafka-cluster',
-   values=['pyspark-demo-deploy/src/main/resources/apps/kafka-cluster/values.yaml',
-       'pyspark-demo-deploy/src/main/resources/apps/kafka-cluster/values-dev.yaml']
-)
-k8s_yaml(yaml)
-# policy-decision-point
-docker_build(
-    ref='pyspark-demo-policy-decision-point-docker',
-    context='pyspark-demo-docker/pyspark-demo-policy-decision-point-docker',
-    build_args=build_args,
-    dockerfile='pyspark-demo-docker/pyspark-demo-policy-decision-point-docker/src/main/resources/docker/Dockerfile'
-)
-
-yaml = helm(
-   'pyspark-demo-deploy/src/main/resources/apps/policy-decision-point',
-   name='policy-decision-point',
-   values=['pyspark-demo-deploy/src/main/resources/apps/policy-decision-point/values.yaml',
-       'pyspark-demo-deploy/src/main/resources/apps/policy-decision-point/values-dev.yaml']
-)
-k8s_yaml(yaml)

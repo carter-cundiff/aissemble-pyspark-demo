@@ -150,6 +150,16 @@
               <version>${version.aissemble}</version>
             </dependency>
           </dependencies>
+          <configuration>
+            <suppressedMessages>
+              <message>Tilefile_docker-build_pyspark-demo-policy-decision-point-docker</message>
+              <message>pyspark-demo-deploy/pom.xml_execution_policy-decision-point</message>
+              <message>pyspark-demo-deploy/pom.xml_execution_configuration-store</message>
+              <message>pyspark-demo-deploy/pom.xml_execution_pipeline-invocation-service</message>
+              <message>pyspark-demo-deploy/pom.xml_pipeline-invocation-service-spark-apps</message>
+              <message>pyspark-demo-docker/pom.xml_module</message>
+            </suppressedMessages>
+          </configuration>
         </plugin>
       </plugins>
     </pluginManagement>

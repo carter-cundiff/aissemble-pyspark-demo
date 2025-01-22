@@ -19,7 +19,6 @@
     <modules>
         <!-- TODO: Add docker modules here -->
         <module>pyspark-demo-spark-worker-docker</module>
-        <module>pyspark-demo-policy-decision-point-docker</module>
     </modules>
 
     <build>
