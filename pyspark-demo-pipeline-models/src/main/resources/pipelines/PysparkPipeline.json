@@ -1,0 +1,28 @@
+{
+    "name": "PysparkPipeline",
+    "package": "org.demo",
+    "type": {
+      "name": "data-flow",
+      "implementation": "data-delivery-pyspark"
+    },
+    "dataLineage": false,
+    "steps": [
+      {
+        "name": "Ingest",
+        "type": "synchronous",
+        "persist" : {
+          "type": "delta-lake"
+        },
+        "provenance": {
+          "enabled": false
+        }
+      },
+      {
+        "name": "Transform",
+        "type": "synchronous",
+        "provenance": {
+          "enabled": false
+        }
+      }
+    ]
+  }

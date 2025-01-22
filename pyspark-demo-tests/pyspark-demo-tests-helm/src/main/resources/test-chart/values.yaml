@@ -1,0 +1,5 @@
+
+image:
+  name: pyspark-demo-tests-docker
+  imagePullPolicy: IfNotPresent
+  dockerRepo: ""

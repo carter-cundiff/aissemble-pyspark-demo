@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>org.demo</groupId>
+        <artifactId>pyspark-demo</artifactId>
+        <version>1.0.0-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>pyspark-demo-tests</artifactId>
+    <name>PysparkDemo::Tests</name>
+    <description>Integration tests for PysparkDemo</description>
+
+    <packaging>pom</packaging>
+
+    <properties>
+        <!-- Kubernetes Java Client version -->
+        <kubernetes.client.version>6.0.0</kubernetes.client.version>
+    </properties>
+
+    <modules>
+        <module>pyspark-demo-tests-java</module>
+        <module>pyspark-demo-tests-docker</module>
+        <module>pyspark-demo-tests-helm</module>
+    </modules>
+</project>
