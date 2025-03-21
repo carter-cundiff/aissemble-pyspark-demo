@@ -1,0 +1,32 @@
+# This workflow will generate a complete dependency graph for our Maven project. The graph will then be
+# sent to our project repo dependency graph (https://github.com/boozallen/aissemble/network/dependencies)
+# where they can be checked for any vulnerabilities
+
+name: Maven Dependency Graph
+
+on:
+  workflow_dispatch:
+    inputs:
+      buildBranch:
+        description: "Branch you want to build"
+        required: true
+        type: string
+        default: "main"
+  push:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.buildBranch }}
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+      - name: Submit Dependency Graph
+        uses: advanced-security/maven-dependency-submission-action@v4
